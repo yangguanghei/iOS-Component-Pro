@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import <EleInvoiceCategory/CTMediator+Elelnvoice.h>
 #import <ModuleBCategory/CTMediator+ModuleB.h>
+#import "CTMediator+Test.h"
 
 @interface ViewController ()
 
@@ -38,10 +39,20 @@
 }
 
 - (void)moduleA {
-    UIViewController *VC = [[CTMediator sharedInstance] EleInvoice_ViewControllerWithCallback:^(NSString *result) {
-        NSLog(@"resultA: --- %@", result);
+    // 正向传值+反向传值
+    UIViewController *testVC = [[CTMediator sharedInstance] Test_ViewControllerParams:@{@"name": @"🍎"} callback:^(id  _Nonnull result) {
+        NSLog(@"result：%@", result);
+        NSDictionary *dict = (NSDictionary *)result;
+        NSLog(@"%@", dict[@"name"]);
     }];
-    [self.navigationController pushViewController:VC animated:YES];
+    [self.navigationController pushViewController:testVC animated:YES];
+
+
+
+//    UIViewController *VC = [[CTMediator sharedInstance] EleInvoice_ViewControllerWithCallback:^(NSString *result) {
+//        NSLog(@"resultA: --- %@", result);
+//    }];
+//    [self.navigationController pushViewController:VC animated:YES];
 }
 
 - (void)moduleB {
